@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" name="txt"  id="txt" value=""/>
+		<input type="button" name="btn" id="btn" value="submit" />
+		<span id="result"></span>
+	</body>
+	<script type="text/javascript">
+		var btn = document.getElementById("btn");
+		var txt = document.getElementById("txt");
+		var spa = document.getElementById("result");
+		
+		btn.onclick = function(){
+			var val = txt.value;
+			var ajax = new XMLHttpRequest();
+			 ajax.open('get','php/get_json.php?user='+val,true);	 
+			
+			// ajax.setRequestHeader('Content-Type','application/x-www-form-urlencoded'); 
+			 
+			ajax.onload = function(){
+				if(ajax.readyState == 4){
+					if(200<=ajax.state<=207){
+						var json = JSON.parse(ajax.responseText);
+				    	spa.innerHTML = json.msg;
+				    	console.log(json)
+					}
+				}
+			}
+			ajax.send();
+		}
+			
+		var json = '{"name":aaa,"age":18}';
+		/*把json格式的数据的对象转换
+		 1.Json.parse();
+		 但是注意转换格式必须是用单引号''包住要转的内容*/
+		
+		/*2.eval():
+		 		eval('('+json1+')');
+		 	特点：把json格式的字符串转化为对象，
+		 	坏处：1.会解析2次，会消耗性能
+		 		  2.会把病毒解析进来，容易携带病毒，也就是不安全*/
+		//var box = json.parse(json);	
+		
+		/*3.使用函数
+		 Funciton：
+		 var a = new Function('','return'+josn)
+		 (Function('','return'+josn))()
+		 
+		 
+		 对象转化成json
+		 
+		 var box = json.stringify
+		 * 
+		 * */
+		
+	</script>
+</html>
